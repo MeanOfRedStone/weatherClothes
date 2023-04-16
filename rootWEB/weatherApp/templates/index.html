@@ -12,7 +12,7 @@
     <title>project</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
     <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}"/>
-    <!-- Font Awesome icons (free version)-->0
+    <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
     <link rel="preconnect" href="https://fonts.gstatic.com"/>
@@ -21,8 +21,8 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&amp;display=swap"
           rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
-    <link href="{% static 'css/login.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/styles_d.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/login_d.css' %}" rel="stylesheet" />
 
     <style>
         .gradient-custom {
@@ -50,34 +50,49 @@
         display:grid;
         grid-template-rows: 1fr 2fr 1fr;
     }
+
+    #card{
+        margin-bottom : 20px;
+    }
+
+    #title{
+        text-align : center;
+    }
+
+    img{
+        display : block;
+        margin : auto;
+    }
+
+
+
     </style>
 </head>
 
 
 <body>
 <!-- Background Video-->
+<!--새벽 작업 시 css 확인 위해서 만듬 -->
+<video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop" src="{% static 'assets/mp4/sunny.mp4' %}" type="video/mp4"></video>
+<!-- 새벽에만 지우자
+<video id="video" class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop" src="" type="video/mp4"></video> -->
+<!--id = video 태그에 날씨에 따라 다른 날씨를 보여줌 -->
 
-<video id="video" class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop" src="" type="video/mp4"></video>
-//id = video 태그에 날씨에 따라 다른 날씨를 보여줌
-    <script></script>
-<!--
-<video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-    <source src="{% static 'assets/mp4/weather_video.mp4' %}" type="video/mp4"/>
-</video>-->
+
 
 <!-- Masthead-->
 <div class="masthead">
     <div class="masthead-content text-white">
         <div class="container-fluid px-4 px-lg-0">
-            <<h1 class="fst-italic lh-1 mb-4">Weather & Clothes</h1>
-            <p class="mb-5">날씨에 맞는 옷을 추천받으세요!</p>
+            <h1 id="title" class="fst-italic lh-1 mb-4">Weather & Clothes</h1>
+           <!-- <p class="mb-5">날씨에 맞는 옷을 추천받으세요!</p>-->
             <!-- 지도 부분 -->
             <!-- kakao API -->
             <script type="text/javascript"
                     src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e443c812207cc3e160a9117574e67b76&libraries=services,clusterer"></script>
             <div>
                 <p></p>
-                <table>
+                <table style="margin-left:auto;margin-right:auto;">
                     <tr>
                         <td>주소</td>
                         <td><input type="text" name="detailAddress" id="address"></td>
@@ -93,10 +108,10 @@
 
                 <div id="grid">
                     <div id="map"
-                         style="width: 500px; height: 160px; margin-right:10px; margin-bottom: 10px; border: 1px solid rgb(207, 207, 207); border-radius: 30px; margin-top: 20px; box-shadow: rgb(207, 207, 207) 0px 0px 13px; position: relative; overflow: hidden; background: url(&quot;https://t1.daumcdn.net/mapjsapi/images/bg_tile.png&quot;);">
+                         style="width: 500px; height: 160px; margin-right:10px; margin-bottom: 10px; border: 1px solid rgb(207, 207, 207); border-radius: 30px; margin-top: 20px; <!--box-shadow: rgb(207, 207, 207) 0px 0px 13px;--> position: relative; overflow: hidden; background: url(&quot;https://t1.daumcdn.net/mapjsapi/images/bg_tile.png&quot;);">
                     </div>
 
-                    <div class="card" style="color: #4B515D; border-radius: 35px;">
+                    <div id="card" class="card" style="color: #4B515D; border-radius: 35px;">
                         <div  id="contents" class="card-body p-4">
                         <!-- javascript 에서 비동기 통신으로 보내기 때문에 주석처리 함. 나중에 필요할 때 사용
                             <div class="d-flex">
@@ -127,7 +142,7 @@
                         </div>
                     </div>
 
-                    <div onclick="../combination/" class="card" style="color: #4B515D; border-radius: 35px;">
+                    <div class="card" style="color: #4B515D; border-radius: 35px;">
                         <div  id="contents2" class="card-body p-4">
                             <div>
                                 <a href="../combination/"><img onclick="../combination/" src="../static/img/4월_14일.jpg" width='100px'></a>
