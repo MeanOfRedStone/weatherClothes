@@ -194,7 +194,23 @@ def searchWeather(request) :
     return JsonResponse(context, safe=False)
 
 
-###########################################################################
+#옷 추천 부분
+#검색하면 데이터베이스에서 날짜에 맞는 옷을 비동기 통신으로 전달
+def clothRecommend(request) :
+    print(">>>>>> debug client path: clothRecommend/ clothRecommend(), ajax JsonResponse")
+
+    month = int(request.POST.get('month'))
+
+    print(">>>>>> debug, params = ", month)
+    response_json = []
+
+
+    return JsonResponse(response_json, safe=False)
+
+def combination(request) :
+    print(">>>>>> debug client path: combination/ combination() render yIndex.html")
+
+    return render(request, 'yIndex.html')
 
 
 

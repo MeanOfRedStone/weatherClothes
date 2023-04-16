@@ -59,6 +59,9 @@
 <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
     <source src="{% static 'assets/mp4/weather_video.mp4' %}" type="video/mp4"/>
 </video>
+<video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+    <source src="{% static 'assets/mp4/weather_video.mp4' %}" type="video/mp4"/>
+</video>
 <!-- Masthead-->
 <div class="masthead">
     <div class="masthead-content text-white">
@@ -90,10 +93,9 @@
                          style="width: 500px; height: 160px; margin-right:10px; margin-bottom: 10px; border: 1px solid rgb(207, 207, 207); border-radius: 30px; margin-top: 20px; box-shadow: rgb(207, 207, 207) 0px 0px 13px; position: relative; overflow: hidden; background: url(&quot;https://t1.daumcdn.net/mapjsapi/images/bg_tile.png&quot;);">
                     </div>
 
-
                     <div class="card" style="color: #4B515D; border-radius: 35px;">
                         <div  id="contents" class="card-body p-4">
-                        <!--
+                        <!-- javascript 에서 비동기 통신으로 보내기 때문에 주석처리 함. 나중에 필요할 때 사용
                             <div class="d-flex">
                                 <h6 class="flex-grow-1"></h6>
                                 <h6>{{weather.time}}</h6>
@@ -122,13 +124,31 @@
                         </div>
                     </div>
 
+                    <div onclick="../combination/" class="card" style="color: #4B515D; border-radius: 35px;">
+                        <div  id="contents2" class="card-body p-4">
+                            <div>
+                                <a href="../combination/"><img onclick="../combination/" src="../static/img/4월_14일.jpg" width='100px'></a>
+                            </div>
+                            <div>
+                                <a href="../combination/"><img onclick="../combination/" src="../static/img/4월_14일_2.jpg" width='100px'></a>
+                            </div>
+                            <div>
+                                <a href="../combination/"><img onclick="../combination/" src="../static/img/4월_14일_3.jpg" width='100px'></a>
+                            </div>
+                            <div>
+                                <a href="../combination/"><img src="../static/img/2월_3일.jpg" width='100px'></a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                <!-- div grid 끝 부분 -->
+                </div>
 
             </div>
 
-        </div>
-
     </div>
-    <p></p>
+    <!-- 기존의 옷 체크박스 부분 필요하면 사용하자<p></p>
     <div class="clothes_type">
         <table>
             <tr>
@@ -151,7 +171,7 @@
             </tr>
         </table>
     </div>
-
+옷 체크박스 부분 끝 -->
 
 </div>
 </div>
@@ -266,6 +286,10 @@
 
             weatherInfo()
             console.log('현재 위치 사용 후 공백 확인 : ', LatLng)
+
+            setTimeout(function() {
+                clothRecommend()
+            }, 3000);
        });
 
 
@@ -391,6 +415,44 @@
                     //결과 다시 합쳐서 id=contents에 html형식으로 출력
                     $('#contents').html(txt)
                     LatLng = [];
+
+                }
+
+            })
+	    }
+
+	    function clothRecommend() {
+		const date = new Date();
+		const month = date.getMonth() + 1;
+		alert(month);
+
+		//ajax
+
+            $.ajax({
+                url: '../clothRecommend/',
+                type: 'post',
+                data: {
+                    'csrfmiddlewaretoken' : '{{ csrf_token }}' ,
+                    month : month ,
+
+                },
+                dataType : 'json',
+                success : function(lst) {
+                    alert('call back success ^*^')
+/*
+                    $('#contents2').empty()
+                    var txt = ''
+                    //jquery each 함수
+                    //function 이하에서 index 배열의 인덱스 / 두번째 매개변수는 값
+                    $.each(lst, function(index, cloth) {
+                        txt += "<div class='d-flex'><h6 class='flex-grow-1'></h6><h6>추천코디</h6></div>"
+                        txt += "<div class='d-flex flex-column text-center mt-5 mb-4'><img src='+clothes.photo+' width='100px'></div>"
+
+                    })
+                   alert(txt)
+                    //결과 다시 합쳐서 id=contents2에 html형식으로 출력
+                    $('#contents2').html(txt)
+*/
 
                 }
 
