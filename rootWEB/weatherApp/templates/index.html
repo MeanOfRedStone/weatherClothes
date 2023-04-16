@@ -56,17 +56,20 @@
 
 <body>
 <!-- Background Video-->
+
+<video id="video" class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop" src="" type="video/mp4"></video>
+//id = video 태그에 날씨에 따라 다른 날씨를 보여줌
+    <script></script>
+<!--
 <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
     <source src="{% static 'assets/mp4/weather_video.mp4' %}" type="video/mp4"/>
-</video>
-<video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-    <source src="{% static 'assets/mp4/weather_video.mp4' %}" type="video/mp4"/>
-</video>
+</video>-->
+
 <!-- Masthead-->
 <div class="masthead">
     <div class="masthead-content text-white">
         <div class="container-fluid px-4 px-lg-0">
-            <h1 class="fst-italic lh-1 mb-4">Weather & Clothes</h1>
+            <<h1 class="fst-italic lh-1 mb-4">Weather & Clothes</h1>
             <p class="mb-5">날씨에 맞는 옷을 추천받으세요!</p>
             <!-- 지도 부분 -->
             <!-- kakao API -->
@@ -212,6 +215,8 @@
     // 마커 리스트
     var markers = [];
     var LatLng = [];
+    var sky = [];
+
 
 
 
@@ -310,7 +315,7 @@
         // 마커 저장된 클러스터러 클리어
         clusterer.clear();
 
-
+        sky = [];
         // 주소-좌표 변환 객체를 생성합니다
         var geocoder = new kakao.maps.services.Geocoder();
 
@@ -407,6 +412,10 @@
                     //jquery each 함수
                     //function 이하에서 index 배열의 인덱스 / 두번째 매개변수는 값
                     $.each(lst, function(index, weather) {
+                        sky.push(weather.sky);
+                        console.log(sky[0]);
+                        document.getElementById('video').src=video_info()
+
                         txt += "<div class='d-flex'><h6 class='flex-grow-1'></h6><h6>"+weather.time+"</h6></div>"
                         txt += "<div class='d-flex flex-column text-center mt-5 mb-4'><h6 class='display-4 mb-0 font-weight-bold' style='color: #1C2331;'>"+weather.tmp+"°C</h6><span class='small' style='color: #868B94'>"+weather.sky+"</span></div>"
                         txt += "<div class='d-flex align-items-center'><div class='flex-grow-1' style='font-size: 1rem;'><div><i class='fas fa-wind fa-fw' style='color: #868B94;'></i><span class='ms-1'>풍속:"+weather.wind+"m/s</span> </div><div><i class='fas fa-tint fa-fw' style='color: #868B94;'></i><span class='ms-1'>습도:"+weather.hum+"% </span></div><div><img src='../static/img/"+weather.img+"' width='100px'></div></div></div>"
@@ -420,6 +429,20 @@
 
             })
 	    }
+        
+
+        function video_info() {
+            alert('video_info()작동')
+            if(sky[0] == '흐림' || sky[0] == '구름많음')
+            {
+                video_src = '{% static 'assets/mp4/weather_video.mp4' %}'
+            }
+            else
+            {
+                video_src = '{% static 'assets/mp4/sunny.mp4' %}'
+            }
+            return video_src;
+        }
 
 	    function clothRecommend() {
 		const date = new Date();
