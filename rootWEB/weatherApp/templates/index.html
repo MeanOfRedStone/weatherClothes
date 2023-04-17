@@ -102,7 +102,7 @@
                 <p></p>
                 <table style="margin-left:auto;margin-right:auto;">
                     <tr>
-                        <td><input type="text" name="detailAddress" id="address"></td>
+                        <td><input style="border-radius: 10px;" type="text" name="detailAddress" id="address"></td>
                         <td>
                             <button type="button" class="btn" id="searchBtn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-search" viewBox="0 0 16 16">
@@ -160,13 +160,13 @@
                                 <a href="../combination/"><img onclick="../combination/" src="../static/img/4월_14일.jpg" width='100px'></a>
                             </div>-->
                             <div>
-                                <a href="../combination/"><img class="cloth" src="../static/img/4월_14일_2.jpg"></a>
+                                <a href="../combination/?month=+month+"><img class="cloth" src="../static/img/4월_14일_2.jpg"></a>
                             </div>
                             <div>
-                                <a href="../combination/"><img class="cloth" src="../static/img/4월_14일_3.jpg" style="margin-right:5px; margin-left:5px;"></a>
+                                <a href="../combination/?month=+month+"><img class="cloth" src="../static/img/4월_14일_3.jpg" style="margin-right:5px; margin-left:5px;"></a>
                             </div>
                             <div>
-                                <a href="../combination/"><img class="cloth" src="../static/img/2월_3일.jpg"></a>
+                                <a href="../combination/?month=+month+"><img class="cloth" src="../static/img/2월_3일.jpg"></a>
                             </div>
 
                         </div>
@@ -228,6 +228,8 @@
 
 
 <script>
+    const date = new Date();
+	var month = date.getMonth() + 1;
 
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 
@@ -481,8 +483,7 @@
         }
 
 	    function clothRecommend() {
-		const date = new Date();
-		const month = date.getMonth() + 1;
+		/*month 원래 위치 */
 		alert(month);
 
 		//ajax
@@ -504,8 +505,11 @@
                     //jquery each 함수
                     //function 이하에서 index 배열의 인덱스 / 두번째 매개변수는 값
                     $.each(lst, function(index, cloth) {
-                        txt += "<div class='d-flex'><h6 class='flex-grow-1'></h6><h6>추천코디</h6></div>"
-                        txt += "<div class='d-flex flex-column text-center mt-5 mb-4'><img src='+clothes.photo+' width='100px'></div>"
+                        txt += "<div><a href='../combination/'><img class='cloth' src='../static/img/4월_14일_2.jpg'></a></div>"
+                        txt += "<div><a href='../combination/'><img class='cloth' src='../static/img/4월_14일_3.jpg' style='margin-right:5px; margin-left:5px;'></a></div>"
+                        txt += "<div><a href='../combination/'><img class='cloth' src='../static/img/2월_3일.jpg'></a></div>"
+
+
 
                     })
                    alert(txt)

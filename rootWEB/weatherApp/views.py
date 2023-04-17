@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect
 from .models import *
 #비동기 통신 모듈
 from django.http    import JsonResponse
-
+#page 기능 도입
+from django.core.paginator import Paginator
 #두성님 import부분
 import requests
 import json
 import math
 from datetime import datetime, timedelta, date
 from urllib.parse import urlencode, quote_plus
+
 
 
 #예원님 import
@@ -45,16 +47,26 @@ def login(request) :
 
     print(">>>>>> debug, params ", id, pwd)
 
-    user = user_tbl.objects.get(user_id=id, user_pwd=pwd)
-    request.session['session_user_id'] = user.user_id
-    request.session['session_name'] = user.user_name
+    try:
+        user = user_tbl.objects.get(user_id=id, user_pwd=pwd)
+        request.session['session_user_id'] = user.user_id
+        request.session['session_name'] = user.user_name
 
+        context = {}
+        context['id'] = request.session['session_user_id']
+        context['name'] = request.session['session_name']
+
+        return render(request, 'index.html', context)
+    except:
+        pass
+        return render(request, 'login.html')
+    """"
     context = {}
     context['id'] = request.session['session_user_id']
     context['name'] = request.session['session_name']
 
     return render(request, 'index.html', context)
-
+"""
 #회원가입
 def join(request) :
     print(">>>>>> debug client path : join/ join(), redirect main.html")
@@ -84,6 +96,7 @@ def searchWeather(request) :
     lon = float(request.POST.get('lng'))
     print(">>>>>> debug, params = ", lat, lon)
 
+    #날씨 API 기존 함수 부분 최종 API 받아서 주석처리 해놓음.
     # # 두성님 날씨 변환 부분
     # Re = 6371.00877  ##  지도반경
     # grid = 5.0  ##  격자간격 (km)
@@ -225,7 +238,6 @@ def searchWeather(request) :
     ra = math.tan(PI * 0.25 + lat * DEGRAD * 0.5)
     ra = re * sf / pow(ra, sn)
     theta = lon * DEGRAD - olon
-
     if theta > PI:
         theta -= 2.0 * PI
     if theta < -PI:
@@ -248,10 +260,10 @@ def searchWeather(request) :
     yesterday = y.strftime("%Y%m%d")
     nx = grid_x
     ny = grid_y
-
+    Base = ['0200', '0500', '0800', '1100', '1400', '1700', '2000', '2300']
     if now.minute < 45:  # base_time와 base_date 구하는 함수 (30분단위의 자료를 매시각 45분이후 호출하므로 다음과 같은 if 설정)
         if now.hour == 0:
-            base_time = "2300"
+            base_time = Base[-1]
             base_date = yesterday
         else:
             pre_hour = now.hour - 1
@@ -267,31 +279,60 @@ def searchWeather(request) :
         else:
             base_time = str(now.hour) + "00"
         base_date = today
-    print(base_time,base_date)
-
     current_time = base_time[0:2] + '00'
 
-    queryParams={'serviceKey':serviceKeyDecoded, 'pageNo':'1','numOfRows':'1000','dataType':'JSON','base_date':base_date,'base_time':base_time,'nx':nx,'ny':ny}
+    print(base_time, base_date)
+
+    if base_time == '0100':
+        base_time = Base[-1]
+        base_date = yesterday
+
+    elif base_time == '0300' or '0400':
+        base_time = Base[0]
+
+    elif base_time == '0600' or '0700':
+        base_time = Base[1]
+
+    elif base_time == '0900' or '1000':
+        base_time = Base[2]
+
+    elif base_time == '1200' or '1300':
+        base_time = Base[3]
+
+    elif base_time == '1500' or '1600':
+        base_time = Base[4]
+
+    elif base_time == '1800' or '1900':
+        base_time = Base[5]
+
+    elif base_time == '2100' or '2200':
+        base_time = Base[6]
+
+    elif base_time == '2400':
+        base_time = Base[7]
+
+    queryParams = {'serviceKey': serviceKeyDecoded, 'pageNo': '1', 'numOfRows': '1000', 'dataType': 'JSON',
+                   'base_date': base_date, 'base_time': base_time, 'nx': nx, 'ny': ny}
 
     # 값 요청 (웹 브라우저 서버에서 요청 - url주소와 파라미터)
 
-    res = requests.get(url,params=queryParams,verify=False)
+    res = requests.get(url, params=queryParams, verify=False)
     res_json = json.loads(res.content)
-    print(res_json)
+    print(base_time)
     items = res_json["response"]['body']['items']
 
     weather_data = dict()
 
     for item in items['item']:
 
-        if item['category'] == 'TMP' and item['baseDate'] == base_date and item['fcstTime'] == current_time :
+        if item['category'] == 'TMP' and item['baseDate'] == base_date and item['fcstTime'] == current_time:
             weather_data['tmp'] = item['fcstValue']
-        if item['category'] == 'POP' and item['baseDate'] == base_date and item['fcstTime'] == current_time :
+        if item['category'] == 'POP' and item['baseDate'] == base_date and item['fcstTime'] == current_time:
             weather_data['percent'] = item['fcstValue']
-        if item['category'] == 'REH' and item['baseDate'] == base_date and item['fcstTime'] == current_time :
+        if item['category'] == 'REH' and item['baseDate'] == base_date and item['fcstTime'] == current_time:
             weather_data['hum'] = item['fcstValue']
 
-        if item['category'] == 'SKY'  and item['baseDate'] == base_date and item['fcstTime'] == current_time :
+        if item['category'] == 'SKY' and item['baseDate'] == base_date and item['fcstTime'] == current_time:
             if item['fcstValue'] == '1':
                 weather_data['sky'] = '맑음'
                 weather_data['img'] = 'free-icon-sun-7755606.png'
@@ -302,10 +343,10 @@ def searchWeather(request) :
                 weather_data['sky'] = '흐림'
                 weather_data['img'] = 'free-icon-rainy-7198663.png'
 
-        if item['category'] == 'TMX' and item['baseDate'] == base_date :
+        if item['category'] == 'TMX' and item['baseDate'] == base_date:
             weather_data['max'] = item['fcstValue']
 
-        if item['category'] == 'TMN' and item['baseDate'] == base_date :
+        if item['category'] == 'TMN' and item['baseDate'] == base_date:
             weather_data['min'] = item['fcstValue']
 
         if item['category'] == 'WSD' and item['baseDate'] == base_date:
@@ -326,6 +367,30 @@ def clothRecommend(request) :
 
     month = int(request.POST.get('month'))
 
+    pngs = CLOTHES_INFO.objects.filter(CLOTHES_MON=month).values( 'CLOTHES_IDX', 'CLOTHES_PNG')
+
+    print(pngs)
+
+    length = len(pngs)
+    print("pngs 길이 =", len(pngs))
+    src = {}
+
+    # for png in pngs['CLOTHES_IDX'] :
+    #     print(png)
+
+    print(src)
+    # print(src['CLOTHES_PNG'])
+    # print(src.values())
+    # print(src)
+
+    # print(pngs[0]['CLOTHES_PNG'])
+    # print(pngs[1]['CLOTHES_PNG'])
+    # print(pngs[2]['CLOTHES_PNG'])
+
+
+    # 데이터 전체 출력
+    # selects = CLOTHES_INFO.objects.all()
+    context = {'select_list': pngs}
     print(">>>>>> debug, params = ", month)
     response_json = []
 
@@ -334,18 +399,24 @@ def clothRecommend(request) :
 
 def combination(request) :
     print(">>>>>> debug client path: combination/ combination() render yIndex.html")
-
-
+    month = request.GET['month']
+    print("params, month - ", month)
     # 데이터 삽입 처음시만 데이터 저장용
     # clothes_insert(request)
     # user_insert(request)
 
     # 패딩 입은 사람만 출력
-    selects = CLOTHES_INFO.objects.filter(CLOTHES_PADDING=1)
+    selects = CLOTHES_INFO.objects.filter(CLOTHES_MON=4)
+
+    ####
+    paginator = Paginator(selects, 9)
+    page = int(request.GET.get('page', 1))
+    select_list = paginator.get_page(page)
+    #### has_previous, has_next, count ....
 
     # 데이터 전체 출력
     # selects = CLOTHES_INFO.objects.all()
-    context = {'select_list': selects}
+    context = {'selects': select_list}
 
 
     return render(request, 'yIndex.html', context)
