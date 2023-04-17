@@ -6,5 +6,5 @@ from .models import *
 # Register your models here.
 
 admin.site.register(user_tbl)
-
+admin.site.register(CLOTHES_INFO)
 

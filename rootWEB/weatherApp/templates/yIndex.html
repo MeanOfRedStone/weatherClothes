@@ -33,11 +33,22 @@
                     <!-- 지도 부분 -->
                     <form id="contactForm" data-sb-form-api-token="API_TOKEN"  name="search_form" >
                         <p></p>
-                        <div class="row input-group-newsletter">
+                        <h1>추천 옷 리스트 보기</h1>
+{% if select_list %}
+<ul>
+  {% for clo in select_list %}
+     <img src="/{{clo}}/"></img>
+    <br>
+  {% endfor %}
+</ul>
+{% else %}
+<p>추천 옷이 없습니다.</p>
+{% endif %}
+                        <!--<div class="row input-group-newsletter">
                             <div id="map" style="width:550px;height:600px;">
                                 지역이나 날씨 삽입
                             </div>
-                        </div>
+                        </div>-->
 
                         <p> </p>
                         <div class="clothes_type">
