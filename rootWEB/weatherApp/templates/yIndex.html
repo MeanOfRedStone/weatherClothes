@@ -18,6 +18,12 @@
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&amp;display=swap" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'css/styles_d.css' %}" rel="stylesheet" />
+         <!-- font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+        <link href="{% static 'css/font.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/search_bar.css' %}" rel="stylesheet" />
     </head>
 
 
@@ -28,11 +34,11 @@
         <div class="masthead">
             <div class="masthead-content text-white">
                 <div class="container-fluid px-4 px-lg-0">
-                    <h1 class="fst-italic lh-1 mb-4">Weather & Clothes</h1>
-                    <p class="mb-5">날씨에 맞는 옷을 추천받으세요!</p>
-                    <!-- 지도 부분 -->
+                  <!--   <h1 class="fst-italic lh-1 mb-4">Weather & Clothes</h1>
+                   <p class="mb-5">날씨에 맞는 옷을 추천받으세요!</p>
+
                     <form id="contactForm" data-sb-form-api-token="API_TOKEN"  name="search_form" >
-                        <p></p>
+                        <p></p>-->
                         <h1>추천 옷 리스트 보기</h1>
 {% if select_list %}
 <ul>
@@ -44,34 +50,7 @@
 {% else %}
 <p>추천 옷이 없습니다.</p>
 {% endif %}
-                        <!--<div class="row input-group-newsletter">
-                            <div id="map" style="width:550px;height:600px;">
-                                지역이나 날씨 삽입
-                            </div>
-                        </div>-->
 
-                        <p> </p>
-                        <div class="clothes_type">
-                            <table>
-                                <tr>
-                                    체크박스
-                                </tr>
-                                <tr>
-                                    체크박스
-                                </tr>
-                                <tr>
-                                    체크박스
-                                </tr>
-                                <tr>
-                                    체크박스
-                                </tr>
-                                <tr>
-                                    <td rowspan="6">
-                                        <button type="submit" class="btn mb-3 btn-round btn-twitter text-left w-100">검색</button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
                     </form>
                 </div>
             </div>
@@ -82,9 +61,9 @@
         <!-- For more icon options, visit https://fontawesome.com/icons?d=gallery&p=2&s=brands-->
         <div class="social-icons">
             <div class="d-flex flex-row flex-lg-column justify-content-center align-items-center h-100 mt-3 mt-lg-0">
-                <a class="btn btn-dark m-3" href="/home/login"><i class="bi bi-person-fill"></i></a>
-                <a class="btn btn-dark m-3" href="#!"><i class="bi bi-box-arrow-right"></i></a>
-                <a class="btn btn-dark m-3" href="#!"><i class="bi bi-info-lg"></i></a>
+             <!--   <a class="btn btn-dark m-3" href="/home/login"><i class="bi bi-person-fill"></i></a>-->
+                <a class="btn btn-dark m-3" href="../logout/"><i class="bi bi-box-arrow-right"></i></a>
+               <!-- <a class="btn btn-dark m-3" href="#!"><i class="bi bi-info-lg"></i></a>-->
             </div>
         </div>
         <!-- Bootstrap core JS-->
