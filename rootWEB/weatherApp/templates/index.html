@@ -59,9 +59,10 @@
         text-align : center;
     }
 
-    img{
-        display : block;
-        margin : auto;
+    .cloth{
+        width : 150px;
+        height : 150px;
+        border-radius: 10px;
     }
 
 
@@ -84,7 +85,7 @@
 <div class="masthead">
     <div class="masthead-content text-white">
         <div class="container-fluid px-4 px-lg-0">
-            <h1 id="title" class="fst-italic lh-1 mb-4">Weather & Clothes</h1>
+            <h1 style="border: 1px solid rgb(207, 207, 207); border-radius: 15px;" id="title" class="fst-italic lh-1 mb-4">Weather is Clothes</h1>
            <!-- <p class="mb-5">날씨에 맞는 옷을 추천받으세요!</p>-->
             <!-- 지도 부분 -->
             <!-- kakao API -->
@@ -94,7 +95,6 @@
                 <p></p>
                 <table style="margin-left:auto;margin-right:auto;">
                     <tr>
-                        <td>주소</td>
                         <td><input type="text" name="detailAddress" id="address"></td>
                         <td>
                             <button type="button" id="searchBtn">Search</button>
@@ -144,17 +144,17 @@
 
                     <div class="card" style="color: #4B515D; border-radius: 35px;">
                         <div  id="contents2" class="card-body p-4">
-                            <div>
+                            <!--<div>
                                 <a href="../combination/"><img onclick="../combination/" src="../static/img/4월_14일.jpg" width='100px'></a>
+                            </div>-->
+                            <div>
+                                <a href="../combination/"><img class="cloth" src="../static/img/4월_14일_2.jpg"></a>
                             </div>
                             <div>
-                                <a href="../combination/"><img onclick="../combination/" src="../static/img/4월_14일_2.jpg" width='100px'></a>
+                                <a href="../combination/"><img class="cloth" src="../static/img/4월_14일_3.jpg" style="margin-right:5px; margin-left:5px;"></a>
                             </div>
                             <div>
-                                <a href="../combination/"><img onclick="../combination/" src="../static/img/4월_14일_3.jpg" width='100px'></a>
-                            </div>
-                            <div>
-                                <a href="../combination/"><img src="../static/img/2월_3일.jpg" width='100px'></a>
+                                <a href="../combination/"><img class="cloth" src="../static/img/2월_3일.jpg"></a>
                             </div>
 
                         </div>
@@ -448,9 +448,13 @@
 
         function video_info() {
             alert('video_info()작동')
-            if(sky[0] == '흐림' || sky[0] == '구름많음')
+            if (sky[0] == '구름많음')
             {
                 video_src = '{% static 'assets/mp4/weather_video.mp4' %}'
+            }
+            else if (sky[0] == '흐림')
+            {
+                video_src = '{% static 'assets/mp4/흐림.mp4' %}'
             }
             else
             {
