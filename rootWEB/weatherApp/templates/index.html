@@ -72,6 +72,10 @@
         }
 
 
+        .masthead:before{
+            background-color: transparent;
+        }
+
 
 
     </style>
@@ -160,13 +164,13 @@
                                 <a href="../combination/"><img onclick="../combination/" src="../static/img/4월_14일.jpg" width='100px'></a>
                             </div>-->
                             <div>
-                                <a href="../combination/?month=+month+"><img class="cloth" src="../static/img/4월_14일_2.jpg"></a>
+                                <a href="../combination/"><img class="cloth" src="../static/img/4월_14일_2.jpg"></a>
                             </div>
                             <div>
-                                <a href="../combination/?month=+month+"><img class="cloth" src="../static/img/4월_14일_3.jpg" style="margin-right:5px; margin-left:5px;"></a>
+                                <a href="../combination/"><img class="cloth" src="../static/img/4월_14일_3.jpg" style="margin-right:5px; margin-left:5px;"></a>
                             </div>
                             <div>
-                                <a href="../combination/?month=+month+"><img class="cloth" src="../static/img/2월_3일.jpg"></a>
+                                <a href="../combination/"><img class="cloth" src="../static/img/2월_3일.jpg"></a>
                             </div>
 
                         </div>
@@ -230,7 +234,6 @@
 <script>
     const date = new Date();
 	var month = date.getMonth() + 1;
-
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 
         mapOption = {
@@ -323,7 +326,7 @@
 
             setTimeout(function() {
                 clothRecommend()
-            }, 3000);
+            }, 2000);
        });
 
 
@@ -421,7 +424,7 @@
 
 
      function weatherInfo() {
-		alert(LatLng[0]+" , "+LatLng[1])
+		/*alert(LatLng[0]+" , "+LatLng[1])*/
 
 		//ajax
 
@@ -435,7 +438,7 @@
                 },
                 dataType : 'json',
                 success : function(lst) {
-                    alert('call back success ^*^')
+                  /*  alert('call back success ^*^') */
                     $('#contents').empty()
                     var txt = ''
                     //jquery each 함수
@@ -454,7 +457,7 @@
                         /*txt += "<div class='d-flex align-items-center'><div class='flex-grow-1' style='font-size: 1rem;'><div><i class='fas fa-wind fa-fw' style='color: #868B94;'></i><span class='ms-1'>풍속:"+weather.wind+"m/s</span> </div><div><i class='fas fa-tint fa-fw' style='color: #868B94;'></i><span class='ms-1'>습도:"+weather.hum+"% </span></div><div><img src='../static/img/"+weather.img+"' width='100px'></div></div></div>"*/
                         txt += "<div class='d-flex align-items-center'><div class='flex-grow-1' style='font-size: 1rem;'><div><i class='fas fa-wind fa-fw' style='color: #868B94;'></i><span class='ms-1'>풍속:"+weather.wind+"m/s</span></div><div><i class='fas fa-tint fa-fw' style='color: #868B94;'></i><span class='ms-1'>강수확률:"+weather.percent+"% </span></div><div><i style='color: #868B94;'></i> <span class='ms-1'>습도:"+weather.hum+"%</span></div><div><i style='color: #868B94;'></i><span class='ms-1'>최고온도:"+weather.max+"°C</span></div><div><i style='color: #868B94;'></i><span class='ms-1'>최저온도:"+weather.min+"°C</span></div></div></div>"
                     })
-                   alert(txt)
+                   /*alert(txt)*/
                     //결과 다시 합쳐서 id=contents에 html형식으로 출력
                     $('#contents').html(txt)
                     LatLng = [];
@@ -466,7 +469,7 @@
         
 
         function video_info() {
-            alert('video_info()작동')
+         /*   alert('video_info()작동')*/
             if (sky[0] == '구름많음')
             {
                 video_src = '{% static 'assets/mp4/weather_video.mp4' %}'
@@ -484,7 +487,7 @@
 
 	    function clothRecommend() {
 		/*month 원래 위치 */
-		alert(month);
+	/*	alert(month);*/
 
 		//ajax
 
@@ -498,8 +501,8 @@
                 },
                 dataType : 'json',
                 success : function(lst) {
-                    alert('call back success ^*^')
-/*
+                 /*   alert('call back success ^*^')
+
                     $('#contents2').empty()
                     var txt = ''
                     //jquery each 함수

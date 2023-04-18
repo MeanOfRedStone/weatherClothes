@@ -261,6 +261,7 @@ def searchWeather(request) :
     nx = grid_x
     ny = grid_y
     Base = ['0200', '0500', '0800', '1100', '1400', '1700', '2000', '2300']
+
     if now.minute < 45:  # base_time와 base_date 구하는 함수 (30분단위의 자료를 매시각 45분이후 호출하므로 다음과 같은 if 설정)
         if now.hour == 0:
             base_time = Base[-1]
@@ -282,35 +283,37 @@ def searchWeather(request) :
     current_time = base_time[0:2] + '00'
 
     print(base_time, base_date)
-
-    if base_time == '0100':
+    print("if문 직전" + base_time)
+    print(type(base_time))
+    if base_time in ["0100"]:
         base_time = Base[-1]
         base_date = yesterday
-
-    elif base_time == '0300' or '0400':
+        print("1번" + base_time)
+    if base_time in ['0200', "0300"]:
         base_time = Base[0]
-
-    elif base_time == '0600' or '0700':
+        print("2번" + base_time)
+    if base_time in ['0600', '0700']:
         base_time = Base[1]
-
-    elif base_time == '0900' or '1000':
+        print("3번" + base_time)
+    if base_time in ['0900', '1000']:
         base_time = Base[2]
 
-    elif base_time == '1200' or '1300':
+    if base_time in ['1200', '1300']:
         base_time = Base[3]
 
-    elif base_time == '1500' or '1600':
+    if base_time in ['1500', '1600']:
         base_time = Base[4]
 
-    elif base_time == '1800' or '1900':
+    if base_time in ['1800', '1900']:
         base_time = Base[5]
 
-    elif base_time == '2100' or '2200':
+    if base_time in ['2100', '2200']:
         base_time = Base[6]
 
-    elif base_time == '2400':
+    if base_time in ['2400']:
         base_time = Base[7]
 
+    print('요청para base_time값' + base_time)
     queryParams = {'serviceKey': serviceKeyDecoded, 'pageNo': '1', 'numOfRows': '1000', 'dataType': 'JSON',
                    'base_date': base_date, 'base_time': base_time, 'nx': nx, 'ny': ny}
 
@@ -318,7 +321,7 @@ def searchWeather(request) :
 
     res = requests.get(url, params=queryParams, verify=False)
     res_json = json.loads(res.content)
-    print(base_time)
+
     items = res_json["response"]['body']['items']
 
     weather_data = dict()
@@ -399,8 +402,7 @@ def clothRecommend(request) :
 
 def combination(request) :
     print(">>>>>> debug client path: combination/ combination() render yIndex.html")
-    month = request.GET['month']
-    print("params, month - ", month)
+
     # 데이터 삽입 처음시만 데이터 저장용
     # clothes_insert(request)
     # user_insert(request)
